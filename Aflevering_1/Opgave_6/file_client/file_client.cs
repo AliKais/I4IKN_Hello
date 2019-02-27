@@ -15,34 +15,16 @@ namespace tcp
 		/// The BUFSIZE.
 		/// </summary>
 		const int BUFSIZE = 1000;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="file_client"/> class.
 		/// </summary>
 		/// <param name='args'>
 		/// The command-line arguments. First ip-adress of the server. Second the filename
 		/// </param>
-
 		private file_client (string[] args)
 		{
-			try
-			{
-				Console.WriteLine(Connecting);
-				var client = new Tcpclient();
-				client.Connect(args[0], PORT)
-
-				var stream = client.GetStream();
-
-				LIB.writeTextTCP(stream, args[1]);
-				ReceiveFile(args[1], stream)
-			}
-			catch ()
-			{
-
-			}
-			finally
-			{
-
-			}
+			// TO DO Your own code
 		}
 
 		/// <summary>

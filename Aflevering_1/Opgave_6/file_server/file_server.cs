@@ -28,7 +28,49 @@ namespace tcp
 		private file_server ()
 		{
 			// TO DO Your own code
-		}
+            IPAddress localAddress = IPAddress.Any;
+            
+            // Initiate an instance of server socket
+            TcpListener serverSocket = new TcpListener(localAddress,PORT);
+
+            // Initiate an instance of client socket
+            TcpClient clientSocket = default(TcpClient);
+
+            // Start tC:\Users\flole\Desktop\GIT_Skole\I4IKN_Hello\Aflevering_1\Opgave_6\LIB\lib.cshe socket for listening
+            serverSocket.Start();
+
+            
+
+            // Received message
+            String filepath = null;
+
+            Console.WriteLine(">> Server started");
+
+            while (true)
+            {
+                try
+                {
+                    // Accepts client socket
+                    clientSocket = serverSocket.AcceptTcpClient();
+                    Console.WriteLine(">> Accepted connection from client");
+
+                    NetworkStream stream = clientSocket.GetStream();
+                    filepath = LIB.readTextTCP(stream);
+
+                    long filesize = LIB.check_File_Exists(filepath);
+
+                    if(filesize>0)
+                        sendFile(filepath,filesize,stream);
+
+                    stream.Close();
+                    clientSocket.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+            }
+        }
 
 		/// <summary>
 		/// Sends the file.
@@ -45,6 +87,19 @@ namespace tcp
 		private void sendFile (String fileName, long fileSize, NetworkStream io)
 		{
 			// TO DO Your own code
+            LIB.writeTextTCP(io,fileSize.ToString());
+
+            FileInfo fileInfo = new FileInfo(fileName);
+
+            int totalBytes = 0;
+            while (fileSize > totalBytes)
+            {
+                if ((fileSize - totalBytes) > 1000)
+                {
+                    fileInfo.OpenRead()
+                }
+            }
+
 		}
 
 		/// <summary>

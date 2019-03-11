@@ -39,6 +39,25 @@ namespace tcp
 		private void receiveFile (String fileName, NetworkStream io)
 		{
 			// TO DO Your own code
+			//Find fil størrelsen
+			long Size_f = LIB.getFileSizeTCP(io);
+			if(Size_f<1)
+			{
+				Console.WriteLine("Filen kunne ikke findes :( Programmet lukker");
+				return;
+			}
+            
+			FileStream fs = File.OpenWrite("root/downloads/"+LIB.extractFileName(fileName));
+			byte[] file = new byte[BUFSIZE];
+			int currentRec = 0;
+			int totalRec = 0;
+			while(totalRec<Size_f)
+			{
+				currentRec = io.Read(file, 0, Math.Min((int)(Size_f-totalRec), BUFSIZE ));
+				fs.Write(file, 0, currentRec);
+				totalRec = totalRec + currentRec;
+			}
+			fs.Close();
 		}
 
 		/// <summary>

@@ -89,18 +89,24 @@ namespace tcp
 			// TO DO Your own code
             LIB.writeTextTCP(io,fileSize.ToString());
 
-            FileInfo fileInfo = new FileInfo(fileName);
+            byte[] filebyte = File.ReadAllBytes(fileName);
 
-            int totalBytes = 0;
-            while (fileSize > totalBytes)
+            int total = 0;
+            while (total < fileSize)
             {
-                if ((fileSize - totalBytes) > 1000)
+                if ((fileSize - total) < BUFSIZE)
                 {
-                    fileInfo.OpenRead()
+                    var newSize = (int)fileSize;
+                    io.Write(filebyte, total, newSize - total);
+                    total += newSize - total;
+                }
+                else
+                {
+                    io.Write(filebyte, total, BUFSIZE);
+                    total += BUFSIZE;
                 }
             }
-
-		}
+        }
 
 		/// <summary>
 		/// The entry point of the program, where the program control starts and ends.

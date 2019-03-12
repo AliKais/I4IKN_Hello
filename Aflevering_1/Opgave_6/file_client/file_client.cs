@@ -72,7 +72,7 @@ namespace tcp
 			int totalRec = 0;
 			while(totalRec<Size_f)
 			{
-				currentRec = io.Read(file, 0, Math.Min((int)(Size_f-totalRec), BUFSIZE ));
+				currentRec = io.Read(file, (int)Size_f-totalRec, BUFSIZE );
 				fs.Write(file, 0, currentRec);
 				totalRec = totalRec + currentRec;
 			}

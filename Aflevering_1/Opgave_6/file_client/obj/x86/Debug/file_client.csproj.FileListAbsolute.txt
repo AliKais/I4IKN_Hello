@@ -1,0 +1,1 @@
+/root/Desktop/I4IKN_Hello/Aflevering_1/Opgave_6/file_client/obj/x86/Debug/file_client.csproj.CoreCompileInputs.cache

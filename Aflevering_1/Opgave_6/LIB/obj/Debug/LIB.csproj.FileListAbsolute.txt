@@ -1,0 +1,6 @@
+/root/Desktop/I4IKN_Hello/Aflevering_1/Opgave_6/LIB/bin/Debug/LIB.dll
+/root/Desktop/I4IKN_Hello/Aflevering_1/Opgave_6/LIB/bin/Debug/LIB.pdb
+/root/Desktop/I4IKN_Hello/Aflevering_1/Opgave_6/LIB/obj/Debug/LIB.csprojResolveAssemblyReference.cache
+/root/Desktop/I4IKN_Hello/Aflevering_1/Opgave_6/LIB/obj/Debug/LIB.csproj.CoreCompileInputs.cache
+/root/Desktop/I4IKN_Hello/Aflevering_1/Opgave_6/LIB/obj/Debug/LIB.dll
+/root/Desktop/I4IKN_Hello/Aflevering_1/Opgave_6/LIB/obj/Debug/LIB.pdb

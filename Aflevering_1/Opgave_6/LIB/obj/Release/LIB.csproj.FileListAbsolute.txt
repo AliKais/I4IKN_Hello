@@ -1,0 +1,3 @@
+/home/ikn/Documents/IKN/I4IKN_Hello/Aflevering_1/Opgave_6/LIB/bin/Release/LIB.dll
+/home/ikn/Documents/IKN/I4IKN_Hello/Aflevering_1/Opgave_6/LIB/obj/Release/LIB.csproj.CoreCompileInputs.cache
+/home/ikn/Documents/IKN/I4IKN_Hello/Aflevering_1/Opgave_6/LIB/obj/Release/LIB.dll

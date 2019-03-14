@@ -5,24 +5,23 @@ using System.Net.Sockets;
 
 namespace tcp
 {
-	class file_client
+	class File_client
 	{
 		const int PORT = 9000;
 		const int BUFSIZE = 1000;
 
-		private file_client (string[] args)
+		private File_client(string[] args)
 		{
 			Console.WriteLine("Connecting");
 
             TcpClient client = new TcpClient();
 			client.Connect(args[0], PORT);
-
             NetworkStream stream = client.GetStream();
 
             Console.WriteLine("File requested");
 
             LIB.writeTextTCP(stream, args[1]);
-			receiveFile(args[1], stream);
+			ReceiveFile(args[1], stream);
 
             Console.WriteLine("File received");
 
@@ -31,7 +30,7 @@ namespace tcp
 		}
 
 
-		private void receiveFile (String fileName, NetworkStream io)
+		private void ReceiveFile (String fileName, NetworkStream io)
 		{
 			//Find fil størrelsen
 			long Size_f = LIB.getFileSizeTCP(io);
@@ -58,7 +57,7 @@ namespace tcp
 		public static void Main (string[] args)
 		{
 			Console.WriteLine ("Client starts...");
-			new file_client(args);
+			new File_client(args);
 		}
 	}
 }

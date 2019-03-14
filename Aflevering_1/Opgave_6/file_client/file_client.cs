@@ -30,28 +30,36 @@ namespace tcp
 		}
 
 
-		private void ReceiveFile (String fileName, NetworkStream io)
-		{
-			//Find fil størrelsen
-			long Size_f = LIB.getFileSizeTCP(io);
-			if(Size_f<1)
-			{
-				Console.WriteLine("Filen kunne ikke findes :( Programmet lukker");
-				return;
-			}
-            
-			FileStream fs = File.OpenWrite("root/downloads/"+LIB.extractFileName(fileName));
-			byte[] file = new byte[BUFSIZE];
-			int currentRec = 0;
-			int totalRec = 0;
-			while(totalRec<Size_f)
-			{
-				currentRec = io.Read(file, (int)Size_f-totalRec, BUFSIZE );
-				fs.Write(file, 0, currentRec);
-				totalRec = totalRec + currentRec;
-			}
-			fs.Close();
-		}
+		private void ReceiveFile(string fileName, NetworkStream io)
+        {
+            int file_Size = (int)LIB.getFileSizeTCP(io);
+
+            if (file_Size == 0)
+            {
+                Console.WriteLine("File ikke fundet ");
+
+            }
+            else
+            {
+                long totalReceived = 0;
+
+                byte[] file_bit = new byte[BUFSIZE];
+                FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+
+                while (totalReceived < file_Size)
+                {
+
+                    int Current_Read = io.Read(file_bit, 0, file_bit.Length);
+
+                    fs.Write(file_bit, 0, Current_Read);
+                    totalReceived += Current_Read;
+
+                    Array.Clear(file_bit, 0, BUFSIZE);
+                }
+
+                fs.Close();
+            }
+        }
 
 
 		public static void Main (string[] args)

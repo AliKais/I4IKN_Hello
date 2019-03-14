@@ -24,26 +24,19 @@ namespace tcp
 		/// </param>
 		private file_client (string[] args)
 		{
-			z// TO DO Your own code
-			try
-			{
-				Console.WriteLine(Connecting);
-				var client = new Tcpclient();
-				client.Connect(args[0], PORT)
+			// TO DO Your own code
+           
+			Console.WriteLine(Connecting);
+			var client = new Tcpclient();
+			client.Connect(args[0], PORT);
 
-				var stream = client.GetStream();
+			var stream = client.GetStream();
 
-				LIB.writeTextTCP(stream, args[1]);
-				ReceiveFile(args[1], stream)
-			}
-			catch ()
-			{
+			LIB.writeTextTCP(stream, args[1]);
+			receiveFile(args[1], stream);
+			client.close();
+			stream.close();
 
-			}
-			finally
-			{
-
-			}
 		}
 
 		/// <summary>

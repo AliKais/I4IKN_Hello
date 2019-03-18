@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 
 namespace tcp
 {
@@ -11,61 +12,50 @@ namespace tcp
         /// The PORT
         /// </summary>
         const int PORT = 9000;
-        /// <summary>
-        /// The BUFSIZE
-        /// </summary>
-        const int BUFSIZE = 1000;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="file_server"/> class.
-        /// Opretter en socket.
-        /// Venter på en connect fra en klient.
-        /// Modtager filnavn
-        /// Finder filstørrelsen
-        /// Kalder metoden sendFile
-        /// Lukker socketen og programmet
-        /// </summary>
         private file_server()
         {
-            // TO DO Your own code
-            IPAddress localAddress = IPAddress.Any;
-
-            // Initiate an instance of server socket
-            TcpListener serverSocket = new TcpListener(localAddress, PORT);
-
-            // Initiate an instance of client socket
-            TcpClient clientSocket = default(TcpClient);
-
-            // Start tC:\Users\flole\Desktop\GIT_Skole\I4IKN_Hello\Aflevering_1\Opgave_6\LIB\lib.cshe socket for listening
-            serverSocket.Start();
-
-
+            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Any, PORT);
+            UdpClient serverSocket = new UdpClient(PORT);
+            Console.WriteLine(">> UDP Server started");
 
             // Received message
-            String filepath = null;
-
-            Console.WriteLine(">> Server started");
+            byte[] receivedDataBytearray;
+            string receivedData;
+            string file;
 
             while (true)
             {
                 try
                 {
-                    // Accepts client socket
-                    clientSocket = serverSocket.AcceptTcpClient();
-                    Console.WriteLine(">> Accepted connection from client");
+                    receivedDataBytearray = serverSocket.Receive(ref ipPoint);
+                    Console.WriteLine("Received from: {0}",ipPoint.ToString());
+                    receivedData = Encoding.ASCII.GetString(receivedDataBytearray, 0, receivedDataBytearray.Length);
+                    Console.WriteLine("Data received: {0}", receivedData);
 
-                    NetworkStream stream = clientSocket.GetStream();
+                    Console.WriteLine("Controlling data");
 
-                    filepath = LIB.readTextTCP(stream);
+                    switch (receivedData.ToUpper())
+                    {
+                        case "U":
+                            file = "/proc/uptime";
+                            Console.WriteLine("File = Uptime");
+                            break;
 
+                        case "L":
+                            file = "/proc/loadavg";
+                            Console.WriteLine("File = Uptime");
+                            break;
+                        
+                        default:
+                            Console.WriteLine("Input doesn't match U or L");
+                            file = "File not found";
+                            break;
+                    }
 
-                    long filesize = LIB.check_File_Exists(filepath);
+                    byte[] fileBytes = Encoding.ASCII.GetBytes(file);
+                    serverSocket.Send(fileBytes, fileBytes.Length, ipPoint);
 
-                    if (filesize > 0)
-                        sendFile(filepath, filesize, stream);
-
-                    stream.Close();
-                    clientSocket.Close();
                 }
                 catch (Exception e)
                 {
@@ -73,53 +63,6 @@ namespace tcp
                 }
             }
         }
-
-        /// <summary>
-        /// Sends the file.
-        /// </summary>
-        /// <param name='fileName'>
-        /// The filename.
-        /// </param>
-        /// <param name='fileSize'>
-        /// The filesize.
-        /// </param>
-        /// <param name='io'>
-        /// Network stream for writing to the client.
-        /// </param>
-        private void sendFile(String fileName, long fileSize, NetworkStream io)
-        {
-            // TO DO Your own code
-            LIB.writeTextTCP(io, fileSize.ToString());
-
-            byte[] filebyte = File.ReadAllBytes(fileName);
-
-            int total = 0;
-
-            while (total < fileSize)
-            {
-
-                if ((fileSize - total) < BUFSIZE)
-                {
-                    var newSize = (int)fileSize;
-                    io.Write(filebyte, total, newSize - total);
-                    total += newSize - total;
-                    Console.WriteLine(">> Program shutting down...");
-                    System.Environment.Exit(1);
-                }
-                else
-                {
-                    io.Write(filebyte, total, BUFSIZE);
-                    total += BUFSIZE;
-                }
-            }
-        }
-
-        /// <summary>
-        /// The entry point of the program, where the program control starts and ends.
-        /// </summary>
-        /// <param name='args'>
-        /// The command-line arguments.
-        /// </param>
         public static void Main(string[] args)
         {
             Console.WriteLine("Server starts...");

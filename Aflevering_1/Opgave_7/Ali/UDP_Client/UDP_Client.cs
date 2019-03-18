@@ -2,35 +2,43 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Text
+using System.Text;
 
-class UDP_Client
+namespace udp
 {
-  static void Main(string[] args)
+  class UDP_Client
   {
-    const int PORT = 9000;
-
-    UdpClient client = new UdpClient();
-    Socket socket = new Socket();
-
-    string IPAddress = IPAddress.Parse(args[0]);
-
-////////////////////////////////
-
-    switch (//)
+    static void Main(string[] args)
     {
-      case "U" :
-      case "u" :
-        //
-        break;
+      const int PORT = 9000;
+  		const int BUFSIZE = 1000;
 
-      case "L" :
-      case "l" :
-        //
-        break;
+      var client = new UdpClient();
+      var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+      var IPAddress = IPAddress.Parse(args[0]);
+      var location = new IPEndPoint(IPAddress.Parse(args[0]), PORT);
 
-      default:
-        break;
+      byte[] send = Encoding.ASCII.GetBytes(args[1]);
+      socket.SendTo (send, location);
+
+  ////////////////////////////////
+
+      switch (//)
+      {
+        case "U" :
+        case "u" :
+          //
+          break;
+
+        case "L" :
+        case "l" :
+          //
+          break;
+
+        default:
+          break;
+      }
     }
   }
+
 }

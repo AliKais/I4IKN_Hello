@@ -1,0 +1,14 @@
+{
+  "ProjectFilePath": "c:\\Users\\Ali\\Documents\\developmentFolders\\GitHub\\I4IKN_Hello\\Aflevering_1\\Opgave_6\\LIB\\LIB.csproj",
+  "TargetFramework": "v4.0",
+  "TagHelpers": [],
+  "Configuration": {
+    "ConfigurationName": "UnsupportedRazor",
+    "LanguageVersion": "1.0",
+    "Extensions": [
+      {
+        "ExtensionName": "UnsupportedRazorExtension"
+      }
+    ]
+  }
+}

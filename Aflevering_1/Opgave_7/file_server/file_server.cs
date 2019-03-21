@@ -44,12 +44,12 @@ namespace tcp
 
                         case "L":
                             file = "/proc/loadavg";
-                            Console.WriteLine("File = Uptime");
+                            Console.WriteLine("File = Loadavg");
                             break;
                         
                         default:
                             Console.WriteLine("Input doesn't match U or L");
-                            file = "File not found";
+                            file = "File not found, write u or l";
                             break;
                     }
 

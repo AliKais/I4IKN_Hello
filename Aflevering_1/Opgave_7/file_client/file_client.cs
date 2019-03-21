@@ -2,70 +2,59 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 
-namespace tcp
+namespace Opgave7
 {
-	class File_client
-	{
-		const int PORT = 9000;
-		const int BUFSIZE = 1000;
-
-		private File_client(string[] args)
-		{
-			Console.WriteLine("Connecting");
-
-            TcpClient client = new TcpClient();
-			client.Connect(args[0], PORT);
-            NetworkStream stream = client.GetStream();
-
-            Console.WriteLine("File requested");
-
-            LIB.writeTextTCP(stream, args[1]);
-			ReceiveFile(args[1], stream);
-
-            Console.WriteLine("File received");
-
-            stream.Close();
-            client.Close();
-		}
-
-
-		private void ReceiveFile(string fileName, NetworkStream io)
+    class File_client
+    {
+        static void Main(string[] arg)
         {
-            int file_Size = (int)LIB.getFileSizeTCP(io);
 
-            if (file_Size == 0)
+            const int PORT = 9000;
+
+            Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            //opretter forbindelse til serveren 
+            UdpClient udpClient = new UdpClient();
+            udpClient.Connect(/*"10.0.0.1"*/ arg[0], PORT);
+            //sender beskeden til serveren
+            byte[] sendbyte = Encoding.ASCII.GetBytes(arg[1]);
+            udpClient.Send(sendbyte, sendbyte.Length);
+            //aflæser fra serveren 
+            IPEndPoint IPE = new IPEndPoint(IPAddress.Parse(/*"10.0.0.1"*/arg[0]), PORT);
+            //udskriver beskeden fra serverens respons 
+            //Byte[] rec_byte = udpClient.Receive(ref IPE);
+            //string returndata = Encoding.ASCII.GetString(rec_byte);
+            //Console.Write("Oplysninger fra serveren er " +rec_byte.ToString());
+
+            switch (arg[1])
             {
-                Console.WriteLine("File ikke fundet ");
+                case "U":
+                case "u":
+                    Byte[] rec_byte = udpClient.Receive(ref IPE);
+                    string returndata = Encoding.ASCII.GetString(rec_byte);
+                    Console.Write("du har sendt U Oplysninger fra serveren er " + rec_byte.ToString());
+                    break;
 
+                case "L":
+                case "l":
+                    Byte[] rec_byte_L = udpClient.Receive(ref IPE);
+                    string returndata_L = Encoding.ASCII.GetString(rec_byte_L);
+                    Console.Write(" du har sendt L oplysninger fra serveren er " + rec_byte_L.ToString());
+                    break;
+
+                default:
+                    Console.WriteLine("du indtastede forkert");
+                    break;
             }
-            else
-            {
-                long totalReceived = 0;
 
-                byte[] file_bit = new byte[BUFSIZE];
-                FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
 
-                while (totalReceived < file_Size)
-                {
-
-                    int Current_Read = io.Read(file_bit, 0, file_bit.Length);
-
-                    fs.Write(file_bit, 0, Current_Read);
-                    totalReceived += Current_Read;
-
-                    Array.Clear(file_bit, 0, BUFSIZE);
-                }
-
-                fs.Close();
-            }
         }
 
+        //public static void Main (string[] args)
+        //{
 
-		public static void Main (string[] args)
-		{
-			Console.WriteLine ("Client starts...");
-			new File_client(args);
-		}
-	}
+        //  Console.WriteLine ("Client starts...");
+        //}
+    }
 }

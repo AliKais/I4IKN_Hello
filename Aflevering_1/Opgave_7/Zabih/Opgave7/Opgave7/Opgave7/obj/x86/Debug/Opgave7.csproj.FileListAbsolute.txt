@@ -1,0 +1,6 @@
+/root/Desktop/I4IKN_Hello/Aflevering_1/Opgave_7/Zabih/Opgave7/Opgave7/Opgave7/obj/x86/Debug/Opgave7.csprojResolveAssemblyReference.cache
+/root/Desktop/I4IKN_Hello/Aflevering_1/Opgave_7/Zabih/Opgave7/Opgave7/Opgave7/obj/x86/Debug/Opgave7.csproj.CoreCompileInputs.cache
+/root/Desktop/I4IKN_Hello/Aflevering_1/Opgave_7/Zabih/Opgave7/Opgave7/Opgave7/bin/Debug/Opgave7.exe
+/root/Desktop/I4IKN_Hello/Aflevering_1/Opgave_7/Zabih/Opgave7/Opgave7/Opgave7/bin/Debug/Opgave7.pdb
+/root/Desktop/I4IKN_Hello/Aflevering_1/Opgave_7/Zabih/Opgave7/Opgave7/Opgave7/obj/x86/Debug/Opgave7.exe
+/root/Desktop/I4IKN_Hello/Aflevering_1/Opgave_7/Zabih/Opgave7/Opgave7/Opgave7/obj/x86/Debug/Opgave7.pdb

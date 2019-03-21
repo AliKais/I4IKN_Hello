@@ -1,0 +1,14 @@
+﻿<Properties StartupConfiguration="{2238B0A0-B4D2-488C-8B94-938537CD94E7}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Opgave7/Program.cs">
+    <Files>
+      <File FileName="Opgave7/Program.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Opgave7 PreferredExecutionTarget="MonoDevelop.Default" FirstBuild="True" />
+</Properties>

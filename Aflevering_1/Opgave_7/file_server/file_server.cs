@@ -66,7 +66,7 @@ namespace tcp
                         file_path = "/proc/loadavg";
                         Console.WriteLine("File = Loadavg");
                         var file = File.ReadAllText(file_path);
-                        byte[] fileBytes = Encoding.ASCII.GetBytes(file_path);
+                        byte[] fileBytes = Encoding.ASCII.GetBytes(file);
                         serverSocket.Send(fileBytes, fileBytes.Length, ipPoint);
                     }
 

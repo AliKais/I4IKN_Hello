@@ -22,7 +22,7 @@ namespace tcp
             // Received message
             byte[] receivedDataBytearray;
             string receivedData;
-            string file;
+            string file_path;
 
             while (true)
             {
@@ -34,28 +34,49 @@ namespace tcp
                     Console.WriteLine("Data received: {0}", receivedData);
 
                     Console.WriteLine("Controlling data");
-
+                    /*
                     switch (receivedData.ToUpper())
                     {
                         case "U":
-                            file = "/proc/uptime";
+                            file_path = "/proc/uptime";
                             Console.WriteLine("File = Uptime");
                             break;
 
                         case "L":
-                            file = "/proc/loadavg";
+                            file_path = "/proc/loadavg";
                             Console.WriteLine("File = Loadavg");
                             break;
                         
                         default:
                             Console.WriteLine("Input doesn't match U or L");
-                            file = "File not found, write u or l";
                             break;
                     }
+                    */
+                    if (receivedData.ToUpper() == "U")
+                    {
+                        file_path = "/proc/uptime";
+                        Console.WriteLine("File = Uptime");
+                        var file = File.ReadAllText(file_path);
+                        byte[] fileBytes = Encoding.ASCII.GetBytes(file);
+                        serverSocket.Send(fileBytes, fileBytes.Length, ipPoint);
+                    }
 
-                    byte[] fileBytes = Encoding.ASCII.GetBytes(file);
-                    serverSocket.Send(fileBytes, fileBytes.Length, ipPoint);
+                    else if (receivedData.ToUpper() == "L")
+                    {
+                        file_path = "/proc/loadavg";
+                        Console.WriteLine("File = Loadavg");
+                        var file = File.ReadAllText(file_path);
+                        byte[] fileBytes = Encoding.ASCII.GetBytes(file_path);
+                        serverSocket.Send(fileBytes, fileBytes.Length, ipPoint);
+                    }
 
+                    else
+                    {
+                        Console.WriteLine("Input doesn't match U or L");
+                        file_path = "Input is not u or l, wrong request";
+                        byte[] fileBytes = Encoding.ASCII.GetBytes(file_path);
+                        serverSocket.Send(fileBytes, fileBytes.Length, ipPoint);
+                    }
                 }
                 catch (Exception e)
                 {

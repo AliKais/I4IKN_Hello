@@ -34,49 +34,33 @@ namespace tcp
                     Console.WriteLine("Data received: {0}", receivedData);
 
                     Console.WriteLine("Controlling data");
-                    /*
+                    
                     switch (receivedData.ToUpper())
                     {
                         case "U":
                             file_path = "/proc/uptime";
-                            Console.WriteLine("File = Uptime");
+                        Console.WriteLine("File = Uptime");
+							var file = file_path + ": " + File.ReadAllText(file_path);
+                        byte[] fileBytes = Encoding.ASCII.GetBytes(file);
+                        serverSocket.Send(fileBytes, fileBytes.Length, ipPoint);
                             break;
 
                         case "L":
                             file_path = "/proc/loadavg";
-                            Console.WriteLine("File = Loadavg");
+							Console.WriteLine("File = Loadavg");
+							var file2 = file_path + ": " + File.ReadAllText(file_path);                     
+							byte[] fileBytes2 = Encoding.ASCII.GetBytes(file2);
+							serverSocket.Send(fileBytes2, fileBytes2.Length, ipPoint);
                             break;
                         
                         default:
                             Console.WriteLine("Input doesn't match U or L");
+                        file_path = "Input is not u or l, wrong request";
+                        byte[] fileBytes3 = Encoding.ASCII.GetBytes(file_path);
+                        serverSocket.Send(fileBytes3, fileBytes3.Length, ipPoint);
                             break;
                     }
-                    */
-                    if (receivedData.ToUpper() == "U")
-                    {
-                        file_path = "/proc/uptime";
-                        Console.WriteLine("File = Uptime");
-                        var file = File.ReadAllText(file_path);
-                        byte[] fileBytes = Encoding.ASCII.GetBytes(file);
-                        serverSocket.Send(fileBytes, fileBytes.Length, ipPoint);
-                    }
 
-                    else if (receivedData.ToUpper() == "L")
-                    {
-                        file_path = "/proc/loadavg";
-                        Console.WriteLine("File = Loadavg");
-                        var file = File.ReadAllText(file_path);
-                        byte[] fileBytes = Encoding.ASCII.GetBytes(file);
-                        serverSocket.Send(fileBytes, fileBytes.Length, ipPoint);
-                    }
-
-                    else
-                    {
-                        Console.WriteLine("Input doesn't match U or L");
-                        file_path = "Input is not u or l, wrong request";
-                        byte[] fileBytes = Encoding.ASCII.GetBytes(file_path);
-                        serverSocket.Send(fileBytes, fileBytes.Length, ipPoint);
-                    }
                 }
                 catch (Exception e)
                 {

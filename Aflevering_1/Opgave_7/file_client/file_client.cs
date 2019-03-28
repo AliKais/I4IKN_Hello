@@ -24,7 +24,7 @@ namespace Opgave7
             //udskriver beskeden fra serverens respons 
             Byte[] rec_byte = udpClient.Receive(ref IPE);         
             string returndata = Encoding.ASCII.GetString(rec_byte);
-			Console.WriteLine("Oplysninger fra serveren er " + rec_byte.ToString());         
+			Console.WriteLine("Oplysninger fra serveren er " + returndata);         
         }
     }
 }

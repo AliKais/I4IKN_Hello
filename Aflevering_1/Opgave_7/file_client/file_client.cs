@@ -20,7 +20,7 @@ namespace Opgave7
             byte[] sendbyte = Encoding.ASCII.GetBytes(arg[1]);
             udpClient.Send(sendbyte, sendbyte.Length);
             //aflæser fra serveren 
-            IPEndPoint IPE = new IPEndPoint(IPAddress.Parse(/*"10.0.0.1"*/arg[0]), PORT);
+            IPEndPoint IPE = new IPEndPoint(IPAddress.Parse(arg[0]), PORT);
             //udskriver beskeden fra serverens respons 
             Byte[] rec_byte = udpClient.Receive(ref IPE);         
             string returndata = Encoding.ASCII.GetString(rec_byte);

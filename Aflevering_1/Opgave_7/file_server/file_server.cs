@@ -39,10 +39,10 @@ namespace tcp
                     {
                         case "U":
                             file_path = "/proc/uptime";
-                        Console.WriteLine("File = Uptime");
+							Console.WriteLine("File = Uptime");
 							var file = file_path + ": " + File.ReadAllText(file_path);
-                        byte[] fileBytes = Encoding.ASCII.GetBytes(file);
-                        serverSocket.Send(fileBytes, fileBytes.Length, ipPoint);
+							byte[] fileBytes = Encoding.ASCII.GetBytes(file);
+							serverSocket.Send(fileBytes, fileBytes.Length, ipPoint);
                             break;
 
                         case "L":
@@ -55,9 +55,9 @@ namespace tcp
                         
                         default:
                             Console.WriteLine("Input doesn't match U or L");
-                        file_path = "Input is not u or l, wrong request";
-                        byte[] fileBytes3 = Encoding.ASCII.GetBytes(file_path);
-                        serverSocket.Send(fileBytes3, fileBytes3.Length, ipPoint);
+							file_path = "Input is not u or l, wrong request";
+							byte[] fileBytes3 = Encoding.ASCII.GetBytes(file_path);
+							serverSocket.Send(fileBytes3, fileBytes3.Length, ipPoint);
                             break;
                     }
 

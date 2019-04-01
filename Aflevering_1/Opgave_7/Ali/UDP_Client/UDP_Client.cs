@@ -15,7 +15,6 @@ namespace udp
 
       var client = new UdpClient();
       var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-      var IPAddress = IPAddress.Parse(args[0]);
       var location = new IPEndPoint(IPAddress.Parse(args[0]), PORT);
 
       byte[] send = Encoding.ASCII.GetBytes(args[1]);

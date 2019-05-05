@@ -8,49 +8,36 @@ namespace Application
 {
 	class file_client
 	{
-		/// <summary>
-		/// The BUFSIZE.
-		/// </summary>
 		private const int BUFSIZE = 1000;
 		private const string APP = "FILE_CLIENT";
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="file_client"/> class.
-		/// 
-		/// file_client metoden opretter en peer-to-peer forbindelse
-		/// Sender en forspÃ¸rgsel for en bestemt fil om denne findes pÃ¥ serveren
-		/// Modtager filen hvis denne findes eller en besked om at den ikke findes (jvf. protokol beskrivelse)
-		/// Lukker alle streams og den modtagede fil
-		/// Udskriver en fejl-meddelelse hvis ikke antal argumenter er rigtige
-		/// </summary>
-		/// <param name='args'>
-		/// Filnavn med evtuelle sti.
-		/// </param>
 	    private file_client(String[] args)
 	    {
-	    	// TO DO Your own code
+            var transport = new Transport(BUFSIZE);
+            var buf = new byte[BUFSIZE];
+            var filePath = args[0];
+
+            transport.Send(Encoding.UTF8.GetBytes(filePath), filePath.Length);
+            var size = transport.Recive(ref buf);
+            var fileSize = 0;
+
+            if (size != 0)
+            {
+                fileSize = int.Parse(Encoding.UTF8.GetString(buf, 0, size));
+
+                if (fileSize > 0)
+                {
+                    ReceiveFile(filePath, fileSize, transport);
+                }
+            }
 	    }
 
-		/// <summary>
-		/// Receives the file.
-		/// </summary>
-		/// <param name='fileName'>
-		/// File name.
-		/// </param>
-		/// <param name='transport'>
-		/// Transportlaget
-		/// </param>
+
 		private void receiveFile (String fileName, Transport transport)
 		{
 			// TO DO Your own code
 		}
 
-		/// <summary>
-		/// The entry point of the program, where the program control starts and ends.
-		/// </summary>
-		/// <param name='args'>
-		/// First argument: Filname
-		/// </param>
 		public static void Main (string[] args)
 		{
 			new file_client(args);

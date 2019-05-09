@@ -44,8 +44,8 @@ namespace Application
 
             Console.WriteLine("Modtager fil");  
 
-            while (read < fileSize && (readSize = transport.Receive(ref fileBuffer)) > 0) {
-		        newFile.Write(fileBuffer, 0, readSize);
+            while (read < fileSize && (readSize = transport.Receive(ref fileBuf)) > 0) {
+		        newFile.Write(fileBuf, 0, readSize);
 		        read += readSize;
 		    }
 

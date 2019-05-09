@@ -146,18 +146,21 @@ namespace Transportlaget
             {
                 try
                 {
-                    while(Receiveread = Link.receive(ref buffer) > 0)
+                    while ((Receiveread = link.receive(ref buffer)) > 0)
                     {
                         if(checksum.checkChecksum(buffer, Receiveread))
                         {
-                            sendAck(true)
+                            sendAck(true);
                             if (buffer[(int)TransCHKSUM.SEQNO] == seqNo)
                             {
                                 seqNo = (byte)((seqNo + 1) % 2);
                                 Receiveread = buf.Length < Receiveread - (int)TransSize.ACKSIZE ? buf.Length : Receiveread - (int)TransSize.ACKSIZE;
-
+                                Array.Copy(buffer, (int)TransSize.ACKSIZE, buf, 0, Receiveread);
+                                break;
                             }
+
                         }
+                        sendAck(false);
 
                     }
 
@@ -165,14 +168,16 @@ namespace Transportlaget
 
                 catch(Exception e)
                 {
+                    Receiveread = 0;
+                    errorCount++;
 
                 }
 
             };
-           
-            
 
-            return 0;
+
+            errorCount = 0;
+            return Receiveread;
 		}
 	}
 }

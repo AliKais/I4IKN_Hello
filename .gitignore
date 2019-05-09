@@ -22,3 +22,4 @@ $RECYCLE.BIN/
 # Operating System Files
 # =========================
 /Aflevering_2/.vs/Exercise_11_charp/v15/Server/sqlite3/db.lock
+*.lock

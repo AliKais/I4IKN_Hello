@@ -13,13 +13,15 @@ namespace Application
 
 	    private file_client(String[] args)
 	    {
-            var transport = new Transport(BUFSIZE);
-            var buf = new byte[BUFSIZE];
-            var filePath = args[0];
+            var fileSize    = 0;
+            var transport   = new Transport(BUFSIZE);
+            var buf         = new byte[BUFSIZE];
+            var filePath    = args[0];
+
+            Console.WriteLine("Anmodning om fil fra server");
 
             transport.Send(Encoding.UTF8.GetBytes(filePath), filePath.Length);
             var size = transport.Recive(ref buf);
-            var fileSize = 0;
 
             if (size != 0)
             {
@@ -27,15 +29,31 @@ namespace Application
 
                 if (fileSize > 0)
                 {
-                    ReceiveFile(filePath, fileSize, transport);
+                    receiveFile(filePath, transport);
                 }
             }
 	    }
 
-
 		private void receiveFile (String fileName, Transport transport)
 		{
-			// TO DO Your own code
+            var read        = 0;
+            var readSize    = 0;
+            var filebuf     = new byte[BUFSIZE];
+			var fileName    = LIB.extractFileName(path);
+			var newFile     = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+
+            Console.WriteLine("Modtager fil");  
+
+            while (read < fileSize && (readSize = transport.Receive(ref fileBuffer)) > 0) {
+		        newFile.Write(fileBuffer, 0, readSize);
+		        read += readSize;
+		    }
+
+		    if (read == fileSize){
+		        Console.WriteLine("Den ønskede fil blev modtaget");
+			}
+
+			newFile.Close();
 		}
 
 		public static void Main (string[] args)

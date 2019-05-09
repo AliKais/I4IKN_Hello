@@ -169,6 +169,7 @@ namespace Transportlaget
 
                 catch(Exception e)
                 {
+                    Console.WriteLine(e);
                     Receiveread = 0;
                     errorCount++;
 

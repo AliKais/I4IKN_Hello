@@ -39,10 +39,12 @@ namespace Transportlaget
 		/// The DEFAULT_SEQNO.
 		/// </summary>
 		private const int DEFAULT_SEQNO = 2;
-		/// <summary>
-		/// The data received. True = received data in receiveAck, False = not received data in receiveAck
-		/// </summary>
-		private bool dataReceived;
+        private const int V = 0;
+
+        /// <summary>
+        /// The data received. True = received data in receiveAck, False = not received data in receiveAck
+        /// </summary>
+        private bool dataReceived;
 		/// <summary>
 		/// The number of data the recveived.
 		/// </summary>
@@ -115,7 +117,20 @@ namespace Transportlaget
 		public void send(byte[] buf, int size)
 		{
 			// TO DO Your own code
-		}
+            buffer[(int) TransCHKSUM.SEQNO] = seqNo;
+            buffer[(int) TransCHKSUM.TYPE] = (int)TransType.DATA;
+
+            for (int i = 0; i < size; i++)
+            {
+                buffer[i + (int) TransSize.ACKSIZE] = buf[i];
+            }
+
+            size += (int) TransSize.ACKSIZE;
+
+            checksum.calcChecksum(ref buffer,size);
+
+
+        }
 
 		/// <summary>
 		/// Receive the specified buffer.
@@ -123,9 +138,41 @@ namespace Transportlaget
 		/// <param name='buffer'>
 		/// Buffer.
 		/// </param>
-		public int receive (ref byte[] buf)
+		public int Receive (ref byte[] buf)
 		{
-			// TO DO Your own code
+            var Receiveread = 0;
+
+            while(Receiveread == 0 && errorCount < 5)
+            {
+                try
+                {
+                    while(Receiveread = Link.receive(ref buffer) > 0)
+                    {
+                        if(checksum.checkChecksum(buffer, Receiveread))
+                        {
+                            sendAck(true)
+                            if (buffer[(int)TransCHKSUM.SEQNO] == seqNo)
+                            {
+                                seqNo = (byte)((seqNo + 1) % 2);
+                                Receiveread = buf.Length < Receiveread - (int)TransSize.ACKSIZE ? buf.Length : Receiveread - (int)TransSize.ACKSIZE;
+
+                            }
+                        }
+
+                    }
+
+                }
+
+                catch(Exception e)
+                {
+
+                }
+
+            };
+           
+            
+
+            return 0;
 		}
 	}
 }

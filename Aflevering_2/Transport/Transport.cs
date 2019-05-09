@@ -140,6 +140,7 @@ namespace Transportlaget
 		/// </param>
 		public int Receive (ref byte[] buf)
 		{
+            // Our Own code
             var Receiveread = 0;
 
             while(Receiveread == 0 && errorCount < 5)

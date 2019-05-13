@@ -11,41 +11,41 @@ namespace Application
 		private const int BUFSIZE = 1000;
 		private const string APP = "FILE_CLIENT";
 
-	    private file_client(String[] args)
-	    {
-	        var fileSize    = 0;
-	        var transport   = new Transport(BUFSIZE);
-	        var buf         = new byte[BUFSIZE];
-	        var filePath    = args[0];
+		private file_client(String[] args)
+		{
+			var fileSize    = 0;
+			var transport   = new Transport(BUFSIZE);
+			var buf         = new byte[BUFSIZE];
+			var filePath    = args[0];
 
-	        Console.WriteLine("Anmodning om fil fra server");
+			Console.WriteLine("Anmodning om fil fra server");
 
-	        transport.Send(Encoding.UTF8.GetBytes(filePath), filePath.Length);
-	        var size = transport.Recive(ref buf);
+			transport.Send(Encoding.UTF8.GetBytes(filePath), filePath.Length);
+			var size = transport.Recive(ref buf);
 
-	        if ((size != 0) && (fileSize > 0))
-	        {
-	            fileSize = int.Parse(Encoding.UTF8.GetString(buf, 0, size));
-	            receiveFile(filePath, transport);
-	        }
-	    }
+			if ((size != 0) && (fileSize > 0))
+			{
+				fileSize = int.Parse(Encoding.UTF8.GetString(buf, 0, size));
+				receiveFile(filePath, transport);
+			}
+		}
 
 		private void receiveFile (String fileName, Transport transport)
 		{
 			var read        = 0;
-      var readSize    = 0;
-      var filebuf     = new byte[BUFSIZE];
+			var readSize    = 0;
+			var filebuf     = new byte[BUFSIZE];
 			var fileName    = LIB.extractFileName(path);
 			var newFile     = new FileStream(fileName, FileMode.Create, FileAccess.Write);
 
-      Console.WriteLine("Modtager fil");
+			Console.WriteLine("Modtager fil");
 
-      while ((read < fileSize) && ((readSize = transport.Receive(ref fileBuf)) > 0)) {
+			while ((read < fileSize) && ((readSize = transport.Receive(ref fileBuf)) > 0)) {
 				newFile.Write(fileBuf, 0, readSize);
-		    read += readSize;
+				read += readSize;
 			}
 
-		  if (read == fileSize){
+			if (read == fileSize){
 				Console.WriteLine("Den ønskede fil blev modtaget");
 			}
 

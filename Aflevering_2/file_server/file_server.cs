@@ -13,6 +13,24 @@ namespace Application
 
         private file_server()
         {
+            Transport transport = new Transport(BUFSIZE, APP);
+            var buffer = new byte[BUFSIZE];
+            var file_size = transport.Receive(ref buffer);
+
+            while (true)
+            {
+                if (file_size == 0)
+                {
+                    Console.WriteLine("file not found");
+                }
+                else
+                {
+                    var file = Encoding.UTF8.GetString(buffer, 0, file_size);
+                    var file_path = Path.GetFullPath("file_server_home/" + file);
+                    sendFile(file_path, file_size ,transport);
+                }
+            }
+            /*
             var transport = new Transport(BUFSIZE);
             var buf = new byte[BUFSIZE];
             var size = 0;
@@ -30,6 +48,8 @@ namespace Application
                 }
                 transport = new Transport(BUFSIZE);
             }
+            */
+
         }
 
         private void sendFile(String fileName, long fileSize, Transport transport)

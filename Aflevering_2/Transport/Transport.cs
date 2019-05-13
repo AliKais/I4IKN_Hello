@@ -121,10 +121,37 @@ namespace Transportlaget
             buffer[(int) TransCHKSUM.TYPE] = (int)TransType.DATA;
 
             Array.Copy(buf,0,buffer,4,size);
+			
+			int newSize = size + (int) TransType.ACKSIZE;
 
-            size += (int) TransSize.ACKSIZE;
-
-            checksum.calcChecksum(ref buffer,size);
+            checksum.calcChecksum(ref buffer,newSize);
+			
+			Console.WriteLine("Checksum: " + buffer[0] + ", " + buffer[1] +  "Sequence: " + buffer[2]);
+			
+			while(errorCount < 5)
+			{
+				++errorCount;
+				
+				do 
+				{
+					link.Send(buffer, newSize)
+				} while(receiveAck == false)
+				
+				Console.WriteLine("Errors: " + errorCount);
+				
+			}
+			
+			if(errorCount >= 5)
+			{
+				Console.WriteLine("Errors count too many: " + errorCount);
+				Console.WriteLine("Cancellation  started");
+				errorCount = 0;
+				Environment.Exit(1);
+				// return;
+			}
+			errorCount = 0;
+			
+			
 
 
         }

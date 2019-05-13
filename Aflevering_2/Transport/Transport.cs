@@ -120,10 +120,7 @@ namespace Transportlaget
             buffer[(int) TransCHKSUM.SEQNO] = seqNo;
             buffer[(int) TransCHKSUM.TYPE] = (int)TransType.DATA;
 
-            for (int i = 0; i < size; i++)
-            {
-                buffer[i + (int) TransSize.ACKSIZE] = buf[i];
-            }
+            Array.Copy(buf,0,buffer,4,size);
 
             size += (int) TransSize.ACKSIZE;
 

@@ -122,7 +122,7 @@ namespace Transportlaget
 
             Array.Copy(buf,0,buffer,4,size);
 			
-			int newSize = size + (int) TransType.ACKSIZE;
+			int newSize = size + (int) TransSize.ACKSIZE;
 
             checksum.calcChecksum(ref buffer,newSize);
 			
@@ -131,11 +131,11 @@ namespace Transportlaget
 			while(errorCount < 5)
 			{
 				++errorCount;
-				
-				do 
-				{
-					link.Send(buffer, newSize)
-				} while(receiveAck == false)
+
+                do
+                {
+                    link.send(buffer, newSize);
+                } while (receiveAck() == false);
 				
 				Console.WriteLine("Errors: " + errorCount);
 				

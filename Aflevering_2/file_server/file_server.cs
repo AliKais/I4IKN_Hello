@@ -30,25 +30,7 @@ namespace Application
                     sendFile(file_path, file_size ,transport);
                 }
             }
-            /*
-            var transport = new Transport(BUFSIZE);
-            var buf = new byte[BUFSIZE];
-            var size = 0;
-
-            while (true)
-            {
-                while ((size = transport.Receive(ref buf)) == 0)
-                { };
-
-                if (size != 0)
-                {
-                    var filePath = Encoding.UTF8.GetString(buf, 0, size);
-                    var tmp = Path.GetFullPath("File_Server_Home/" + filePath);
-                    sendFile(tmp, transport);
-                }
-                transport = new Transport(BUFSIZE);
-            }
-            */
+            
 
         }
 

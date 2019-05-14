@@ -14,27 +14,27 @@ namespace Application
 		private file_client(String[] args)
 		{
 			var fileSize    = 0;
-			var transport   = new Transport(BUFSIZE);
+			var transport   = new Transport(BUFSIZE, APP);
 			var buf         = new byte[BUFSIZE];
 			var filePath    = args[0];
 
 			Console.WriteLine("Anmodning om fil fra server");
 
-			transport.Send(Encoding.UTF8.GetBytes(filePath), filePath.Length);
-			var size = transport.Recive(ref buf);
+			transport.send(Encoding.UTF8.GetBytes(filePath), filePath.Length);
+			var size = transport.Receive(ref buf);
 
 			if ((size != 0) && (fileSize > 0))
 			{
 				fileSize = int.Parse(Encoding.UTF8.GetString(buf, 0, size));
-				receiveFile(filePath, transport);
+				receiveFile(filePath, fileSize, transport);
 			}
 		}
 
-		private void receiveFile (String fileName, Transport transport)
+		private void receiveFile (String path, long fileSize, Transport transport)
 		{
 			var read        = 0;
 			var readSize    = 0;
-			var filebuf     = new byte[BUFSIZE];
+			var fileBuf     = new byte[BUFSIZE];
 			var fileName    = LIB.extractFileName(path);
 			var newFile     = new FileStream(fileName, FileMode.Create, FileAccess.Write);
 

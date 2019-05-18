@@ -115,7 +115,7 @@ namespace Linklaget
                     break;
                 }
             }
-
+            
 
             int buf_count = 0;
             //kigger på vores buffer nu 
@@ -125,11 +125,11 @@ namespace Linklaget
                 {
                     if (buffer[i + 1] == (byte)'C')
                     {
-                        buf[buf_count++] = (byte)'B';
+                        buf[buf_count++] = (byte)'A';
                     }
                     else
                     {
-                        buf[buf_count++] = (byte)'C';
+                        buf[buf_count++] = (byte)'B';
                     }
                 }
                 buf[buf_count] = buffer[i];
